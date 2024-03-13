@@ -24,7 +24,7 @@ public class MySecurityConfig {
 //    }
 
     @Bean
-    BCryptPasswordEncoder passwordEncoder(){
+    BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -33,10 +33,19 @@ public class MySecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         //for basicAuth
         //http.httpBasic(Customizer.withDefaults());
+
         //for formBased login
         http.formLogin(Customizer.withDefaults());
-        http.authorizeHttpRequests(authorize->authorize.anyRequest().authenticated());
-        return http.build();
 
+        //can access any request if authorized
+//        http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
+
+        //can't access any request apart from /hello if authorized
+        http.authorizeHttpRequests
+                (auth -> auth
+                        .requestMatchers("/hello")
+                        .authenticated().anyRequest().denyAll());
+
+        return http.build();
     }
 }
