@@ -13,15 +13,15 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class MySecurityConfig {
-    @Bean
-    UserDetailsService userDetailsService(){
-        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-        UserDetails user = User.withUsername("Akshit")
-                .password(passwordEncoder().encode("springSecurity"))
-                .authorities("read").build();
-        userDetailsService.createUser(user);
-        return  userDetailsService;
-    }
+//    @Bean
+//    UserDetailsService userDetailsService(){
+//        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
+//        UserDetails user = User.withUsername("Akshit")
+//                .password(passwordEncoder().encode("springSecurity"))
+//                .authorities("read").build();
+//        userDetailsService.createUser(user);
+//        return  userDetailsService;
+//    }
 
     @Bean
     BCryptPasswordEncoder passwordEncoder(){
