@@ -31,7 +31,10 @@ public class MySecurityConfig {
     //default will be overridden with filterChain Method
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.httpBasic(Customizer.withDefaults());
+        //for basicAuth
+        //http.httpBasic(Customizer.withDefaults());
+        //for formBased login
+        http.formLogin(Customizer.withDefaults());
         http.authorizeHttpRequests(authorize->authorize.anyRequest().authenticated());
         return http.build();
 
