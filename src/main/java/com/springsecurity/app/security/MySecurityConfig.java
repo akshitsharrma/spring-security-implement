@@ -1,5 +1,6 @@
 package com.springsecurity.app.security;
 
+import com.springsecurity.app.securityFilter.MySecurityFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 public class MySecurityConfig {
@@ -32,20 +34,20 @@ public class MySecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         //for basicAuth
-        //http.httpBasic(Customizer.withDefaults());
+        http.httpBasic(Customizer.withDefaults());
 
         //for formBased login
-        http.formLogin(Customizer.withDefaults());
+        //http.formLogin(Customizer.withDefaults());
 
         //can access any request if authorized
-//        http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
+        //http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
 
         //can't access any request apart from /hello if authorized
         http.authorizeHttpRequests
                 (auth -> auth
                         .requestMatchers("/hello")
                         .authenticated().anyRequest().denyAll());
-
+        http.addFilterBefore(new MySecurityFilter(), BasicAuthenticationFilter.class);
         return http.build();
     }
 }
